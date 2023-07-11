@@ -6,13 +6,17 @@ end)
 RegisterNetEvent("rsv_utils:spawnvehicle")
 AddEventHandler("rsv_utils:spawnvehicle", function(model)
     RemoveVehicle()
-    SpawnVehicle(model)
+    local hash = LoadModel(model)
+    if (not hash) then
+        ChatMessage({"~r~[ERROR]", "~r~Invalid model!"})
+    end
+    local veh = SpawnVehicle(hash)
+    DrawNotification("~g~".. GetMakeNameFromVehicleModel(GetEntityModel(veh)) .."vehicle appears with success!")
 end)
 
 RegisterNetEvent("rsv_utils:repairvehicle")
 AddEventHandler("rsv_utils:repairvehicle", function(netId)
-    local veh = NetworkGetEntityFromNetworkId(netId)
-    RepairVehicle(veh)
+    RepairVehicle(NetworkGetEntityFromNetworkId(netId))
 end)
 
 status = false

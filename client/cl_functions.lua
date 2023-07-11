@@ -1,3 +1,7 @@
+function ChatMessage(arguments)
+    TriggerEvent("chat:addMessage", {args = arguments})
+end
+
 function DisplayText(text, pos, colors)
     if not text then
         return
@@ -22,11 +26,16 @@ function DisplayCoords()
     end)
 end
 
+function DisplayNotification(msg)
+    BeginTextCommandThefeedPost("STRING")
+    AddTextComponentSubstringPlayerName(msg)
+    EndTextCommandThefeedPostTicker(true, true)
+end
+
 function LoadModel(model)
     local hash = GetHashKey(model)
     if (not IsModelInCdimage(hash)) then
-        print("Not a game model!")
-        return
+        return false
     end
 
     RequestModel(hash)
@@ -47,14 +56,13 @@ end
 function RemoveVehicle()
     local veh = GetVehiclePedIsIn(PlayerPedId(), true)
     if (veh == 0) then
-        return
+        return false
     end
     SetEntityAsMissionEntity(veh, true, true)
     DeleteVehicle(veh)
 end
 
-function SpawnVehicle(model)
-    local hash = LoadModel(model)
+function SpawnVehicle(hash)
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped, true)
     local heading = GetEntityHeading(ped)
@@ -66,7 +74,9 @@ function SpawnVehicle(model)
     return veh
 end
 
+exports("ChatMessage", ChatMessage)
 exports("DisplayText", DisplayText)
+exports("DisplayNotification", DisplayNotification)
 exports("LoadModel", LoadModel)
 exports("SpawnVehicle", SpawnVehicle)
 exports("RemoveVehicle", RemoveVehicle)
