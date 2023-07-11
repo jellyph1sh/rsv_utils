@@ -11,7 +11,7 @@ AddEventHandler("rsv_utils:spawnvehicle", function(model)
         ChatMessage({"~r~[ERROR]", "~r~Invalid model!"})
     end
     local veh = SpawnVehicle(hash)
-    DisplayNotification("~g~".. GetMakeNameFromVehicleModel(GetEntityModel(veh)) .."vehicle appears with success!")
+    DisplayNotification("~g~".. GetDisplayNameFromVehicleModel(hash) .." vehicle appears with success!")
 end)
 
 RegisterNetEvent("rsv_utils:repairvehicle")
